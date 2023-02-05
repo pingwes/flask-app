@@ -150,15 +150,6 @@ class MultiHeadAttentionLayer(tf.keras.layers.Layer):
 
 
 
-model = tf.keras.models.load_model(
-    "model.h5",
-    custom_objects={
-        "PositionalEncoding": PositionalEncoding,
-        "MultiHeadAttentionLayer": MultiHeadAttentionLayer,
-    },
-    compile=False,
-)
-
 MAX_LENGTH = 36
 
 def load_events():
@@ -187,6 +178,16 @@ START_TOKEN, END_TOKEN = [tokenizer.vocab_size], [tokenizer.vocab_size + 1]
 
 # Vocabulary size plus start and end token
 VOCAB_SIZE = tokenizer.vocab_size + 2
+
+
+model = tf.keras.models.load_model(
+    "model.h5",
+    custom_objects={
+        "PositionalEncoding": PositionalEncoding,
+        "MultiHeadAttentionLayer": MultiHeadAttentionLayer,
+    },
+    compile=False,
+)
 
 
 def evaluate(input_sequence):
