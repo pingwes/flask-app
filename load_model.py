@@ -134,10 +134,12 @@ class MultiHeadAttentionLayer(tf.keras.layers.Layer):
 
         return outputs
 
+
 def create_padding_mask(x):
     mask = tf.cast(tf.math.equal(x, 0), tf.float32)
     # (batch_size, 1, 1, sequence length)
     return mask[:, tf.newaxis, tf.newaxis, :]
+
 
 def create_look_ahead_mask(x):
     seq_len = tf.shape(x)[1]
