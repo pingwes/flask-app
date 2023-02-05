@@ -3,6 +3,20 @@ import tensorflow_datasets as tfds
 import os
 
 
+def create_padding_mask(x):
+    mask = tf.cast(tf.math.equal(x, 0), tf.float32)
+    # (batch_size, 1, 1, sequence length)
+    return mask[:, tf.newaxis, tf.newaxis, :]
+
+
+def create_look_ahead_mask(x):
+    seq_len = tf.shape(x)[1]
+    look_ahead_mask = 1 - tf.linalg.band_part(tf.ones((seq_len, seq_len)), -1, 0)
+    padding_mask = create_padding_mask(x)
+    return tf.maximum(look_ahead_mask, padding_mask)
+
+
+
 class PositionalEncoding(tf.keras.layers.Layer):
     def __init__(self, position, d_model, **kwargs):
         super(PositionalEncoding, self).__init__(**kwargs)
@@ -134,18 +148,6 @@ class MultiHeadAttentionLayer(tf.keras.layers.Layer):
 
         return outputs
 
-
-def create_padding_mask(x):
-    mask = tf.cast(tf.math.equal(x, 0), tf.float32)
-    # (batch_size, 1, 1, sequence length)
-    return mask[:, tf.newaxis, tf.newaxis, :]
-
-
-def create_look_ahead_mask(x):
-    seq_len = tf.shape(x)[1]
-    look_ahead_mask = 1 - tf.linalg.band_part(tf.ones((seq_len, seq_len)), -1, 0)
-    padding_mask = create_padding_mask(x)
-    return tf.maximum(look_ahead_mask, padding_mask)
 
 
 model = tf.keras.models.load_model(
