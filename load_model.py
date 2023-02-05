@@ -144,25 +144,13 @@ model = tf.keras.models.load_model(
     },
     compile=False,
 )
-path_to_zip = tf.keras.utils.get_file(
-    "data.zip",
-    origin="https://bci-datasets-qjp32e.s3.us-west-2.amazonaws.com/data.zip",
-    extract=True,
-)
 
-path_to_brain_dataset = os.path.join(
-    os.path.dirname(path_to_zip), "data"
-)
-
-
-path_to_data = os.path.join(path_to_brain_dataset, "data.txt")
-MAX_LENGTH = 369
-
+MAX_LENGTH = 36
 
 def load_events():
   inputs, outputs = [], []
 
-  with open(path_to_data, "r") as file:
+  with open("data.txt", "r") as file:
           lines = file.readlines()
 
   for line in lines:
@@ -171,6 +159,7 @@ def load_events():
     inputs.append(parts[1])
 
   return inputs, outputs
+
 
 key_inputs, accelerometer = load_events()
 
@@ -184,6 +173,7 @@ START_TOKEN, END_TOKEN = [tokenizer.vocab_size], [tokenizer.vocab_size + 1]
 
 # Vocabulary size plus start and end token
 VOCAB_SIZE = tokenizer.vocab_size + 2
+
 
 def evaluate(input_sequence):
 
