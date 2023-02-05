@@ -181,7 +181,7 @@ VOCAB_SIZE = tokenizer.vocab_size + 2
 
 
 model = tf.keras.models.load_model(
-    "model.h5",
+    "model2.h5",
     custom_objects={
         "PositionalEncoding": PositionalEncoding,
         "MultiHeadAttentionLayer": MultiHeadAttentionLayer,

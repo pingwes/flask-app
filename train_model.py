@@ -477,10 +477,11 @@ dataset = dataset.shuffle(BUFFER_SIZE)
 dataset = dataset.batch(BATCH_SIZE)
 dataset = dataset.prefetch(tf.data.AUTOTUNE)
 
-
-def train_model():
-    model.fit(dataset, epochs=EPOCHS)
-    filename = "model2.h5"
-    tf.keras.models.save_model(model, filepath=filename, include_optimizer=False)
-    del model
-    tf.keras.backend.clear_session()
+model.fit(dataset, epochs=EPOCHS)
+filename = "model2.h5"
+tf.keras.models.save_model(model, filepath=filename, include_optimizer=False)
+#
+# def train_model():
+#
+#     del model
+#     tf.keras.backend.clear_session()
